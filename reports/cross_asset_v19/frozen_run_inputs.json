@@ -1,5 +1,5 @@
 {
-  "protocol_sha256": "21bb372400c6158bbccd95141e02d6169cc75187d6dd3750ee8074edd0ffcff9",
+  "protocol_sha256": "a100550e88bcb042d568f1f3c02ae7778664ee7b1c7b7e64bba53dd165303b0f",
   "source_sha256": "82347fef112a5f04dc2b5accf947f362eefe1a0a89f1c59bf143a369ab63e32e",
   "universe": [
     "SPY",
@@ -104,6 +104,7 @@
     "calendar_days": 7,
     "multiplier": 1.0
   },
+  "freeze_ref": "v19-development-freeze-20260927",
   "development_reused": true,
   "locked_test_loaded_for_selection": false
 }

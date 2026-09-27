@@ -48,8 +48,20 @@ the train calibration exactly.
 The sole v19 candidate is not compared with alternative parameters. It passes the development
 progression gate only if both train and development complete, have positive net CAGR and Sharpe,
 maximum drawdown is at least -20%, development annual turnover is at most 25, every recorded risk
-budget is satisfied, and development Sharpe remains positive at doubled costs and with a one-session
-signal delay. This gate means only `DEVELOPMENT_ACCEPTED_TEST_LOCKED`; it is not live acceptance.
+budget is satisfied, and development Sharpe remains positive under a frozen-trade doubled
+transaction-cost stress and with a one-session signal delay. This gate means only
+`DEVELOPMENT_ACCEPTED_TEST_LOCKED`; it is not live acceptance.
+
+The frozen-trade stress must reuse the baseline weights, trades, gross returns, turnover and borrow
+charges exactly. It replaces each realized transaction charge with twice that charge and recomputes
+net return as `gross_return - 2 * transaction_cost - borrow_cost`. Reoptimizing after increasing the
+cost multiplier answers a different question and is reported only as a secondary diagnostic.
+
+The post-run concentration audit is descriptive and cannot change the progression decision. It
+reports additive return contribution by calendar year, ETF, sleeve, long/short leg and lagged SPY
+drawdown regime. Regimes use information available before each return: normal is drawdown above
+-5%, correction is -5% through -10%, and stress is below -10%. Top-five concentration is the five
+largest absolute ETF contributions divided by total absolute ETF contribution.
 
 The original strict promotion gate is reported separately: train Sharpe above 0.70, development
 Sharpe above 0.50, development CAGR above 5%, train and development drawdown at least -15%, and
@@ -58,3 +70,11 @@ development annual turnover at most 25. Failure is retained as a valid research 
 This run must write `locked_test_evaluated: false`, must not create a locked-test performance file,
 and can never enable paper orders. A separate, explicitly authorized protocol and run are required
 to unlock 2021–2024 after this development decision is frozen.
+
+## Methodology amendment
+
+On 2026-09-27, before any locked-test access, the doubled-cost definition was corrected because the
+first implementation allowed the optimizer to choose different trades after observing the higher
+cost assumption. The baseline strategy, signal parameters, portfolio constraints, research windows
+and gates were not changed. Contribution diagnostics were added at the same time. The amendment is
+recorded in Git history and all regenerated artifacts identify the corrected frozen-trade stress.

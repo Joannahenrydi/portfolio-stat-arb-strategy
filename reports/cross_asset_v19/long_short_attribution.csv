@@ -1,0 +1,5 @@
+segment,leg,gross_return_contribution
+train,long,0.2246307414543002
+train,short,9.924935575666436e-05
+development,long,0.1502012795738259
+development,short,-0.0027057243940108496

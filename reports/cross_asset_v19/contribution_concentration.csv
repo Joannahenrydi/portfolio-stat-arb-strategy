@@ -1,0 +1,3 @@
+segment,top_5_absolute_contribution_share,top_5_symbols,largest_positive_contributor,largest_positive_contribution,largest_negative_contributor,largest_negative_contribution
+train,0.8330867229323915,"XLP,EMB,LQD,TIP,MUB",XLP,0.060701986736939245,FXB,-0.0014746846885992158
+development,0.7546582969145347,"SPY,LQD,EMB,HYG,MUB",SPY,0.04375999436500752,FXE,-0.0051521826130367125

@@ -5,6 +5,20 @@
   "strict_promotion_gate_passed": false,
   "locked_test_evaluated": false,
   "orders_allowed": false,
+  "freeze_ref": "v19-development-freeze-20260927",
+  "diagnostic_review": {
+    "status": "REVIEW_REQUIRED_CONCENTRATED_LONG_BOOK",
+    "development_top_5_absolute_contribution_share": 0.7546582969145347,
+    "development_top_5_symbols": [
+      "SPY",
+      "LQD",
+      "EMB",
+      "HYG",
+      "MUB"
+    ],
+    "development_long_contribution": 0.1502012795738259,
+    "development_short_contribution": -0.0027057243940108496
+  },
   "numerical_boundary_solutions": 1,
   "calibration": {
     "status": "ADMITTED",

@@ -5,7 +5,8 @@ construction, walk-forward validation and fail-closed paper execution.
 
 > **Current decision: DEVELOPMENT ACCEPTED; LOCKED TEST NOT EVALUATED.** The prespecified v19
 > defensive time-series momentum candidate passed its reused-development progression gate. It did
-> not pass the original strict promotion gate, and paper orders remain disabled.
+> not pass the original strict promotion gate, its contribution audit requires concentration and
+> long-book review, and paper orders remain disabled.
 
 ## Latest evidence
 
@@ -35,7 +36,10 @@ dead zone, used inverse-volatility signal sizing, reduced rebalancing to every t
 kept macro exposures inside risk budgets instead of neutralizing them. It remained profitable at
 doubled costs and with a one-session signal delay. The 2017–2020 period is reused evidence, so the
 result is permission to define a separate locked-test protocol rather than an unbiased OOS claim.
-The 2021–2024 test has not been evaluated.
+The contribution audit found that the top five ETFs generated 75.5% of absolute development
+contribution and that almost all positive contribution came from the long book, led by credit and
+equity exposure. This does not retroactively change the frozen progression gate, but it prevents a
+diversified-alpha interpretation. The 2021–2024 test has not been evaluated.
 
 - [v13–v18 consolidated report](reports/cross_asset_v13_v18/REPORT.md)
 - [Development NAV and drawdown](reports/cross_asset_v13_v18/development_nav_drawdown.png)
