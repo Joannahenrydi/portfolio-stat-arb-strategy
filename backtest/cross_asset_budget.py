@@ -28,6 +28,22 @@ class RiskBudgetConfig:
     max_iterations: int = 500
 
 
+def _is_feasible_candidate(result, bounds, linear, volatility_constraint, tolerance):
+    """Independently validate a finite SLSQP candidate when convergence is not reported."""
+    if result.x is None or not np.isfinite(result.x).all():
+        return False
+    lower_violation = float(np.max(bounds.lb - result.x))
+    upper_violation = float(np.max(result.x - bounds.ub))
+    linear_violation = float(np.max(linear.A @ result.x - linear.ub))
+    volatility_violation = -float(volatility_constraint(result.x))
+    return max(
+        lower_violation,
+        upper_violation,
+        linear_violation,
+        volatility_violation,
+    ) <= tolerance
+
+
 def run_risk_budget_backtest(
     expected_return: pd.DataFrame,
     returns: pd.DataFrame,
@@ -201,7 +217,10 @@ def run_risk_budget_backtest(
                                       "jac": volatility_jac}],
                 options={"maxiter": config.max_iterations, "ftol": 1e-9, "disp": False},
             )
-            if not result.success:
+            independently_feasible = _is_feasible_candidate(
+                result, bounds, linear, volatility_constraint, config.tolerance
+            )
+            if not result.success and not independently_feasible:
                 return CrossAssetResult(pd.DataFrame(records).set_index("session"), pd.DataFrame(weights),
                                         pd.DataFrame(rebalances), "INVALID",
                                         f"RISK_BUDGET_OPTIMIZER_FAILED_{result.status}_{result.message}")
@@ -224,6 +243,8 @@ def run_risk_budget_backtest(
                                "forecast_volatility": float(
                                    np.sqrt(result.x[:n] @ covariance @ result.x[:n] * 252)
                                ),
+                               "optimizer_converged": bool(result.success),
+                               "optimizer_status": int(result.status),
                                "risk_scaler": scale,
                                "net_budget_ratio": float(abs(target.sum()) / (config.net_cap * scale)),
                                "maximum_factor_budget_ratio": float(

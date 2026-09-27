@@ -3,9 +3,9 @@
 Research platform for cross-asset trend, equity statistical arbitrage, cost-aware portfolio
 construction, walk-forward validation and fail-closed paper execution.
 
-> **Current decision: REJECTED.** Cross-asset trend showed economically meaningful development
-> performance under risk-budgeted construction, but failed stability gates across regimes. No
-> strategy was promoted and paper orders remain disabled.
+> **Current decision: DEVELOPMENT ACCEPTED; LOCKED TEST NOT EVALUATED.** The prespecified v19
+> defensive time-series momentum candidate passed its reused-development progression gate. It did
+> not pass the original strict promotion gate, and paper orders remain disabled.
 
 ## Latest evidence
 
@@ -21,6 +21,7 @@ after 2017.
 | v15 time-series trend | 0.688 | 0.547 | 4.33% development | **-14.68% development** | Reject: return gates |
 | v16 50/50 trend ensemble | **0.865** | 0.431 | 8.47% train / 3.35% development | -14.25% train / -15.16% development | Reject: instability |
 | v18 expanded-universe winner | **0.823** | 0.212 | 7.25% train / 1.41% development | **-13.64% train** / -12.93% development | Reject: instability |
+| v19 defensive TSMOM | **1.210** | **0.927** | 2.45% train / **3.60% development** | **-5.20% train** / **-9.53% development** | Development pass; test locked |
 
 v13 isolated a construction error in v12: forcing equity, duration, credit, commodity and USD
 exposure to exactly zero removed the macro trend the strategy was meant to earn. Replacing exact
@@ -29,15 +30,19 @@ versions added time-series momentum, train-only ensemble selection, 45-ETF unive
 risk-target selection. These improved training performance and drawdown control, but the first
 development evaluation remained too weak for promotion.
 
-The 2021–2024 locked test was never evaluated in v13–v18 because no candidate passed development
-and kill-test gates. The next research cycle requires a distinct information source such as futures
-carry/term structure, intraday/overnight decomposition, macro surprises, PIT earnings/revisions or
-historical borrow data.
+v19 retained only absolute time-series momentum, added a fixed 200-day trend confirmation and
+dead zone, used inverse-volatility signal sizing, reduced rebalancing to every ten sessions and
+kept macro exposures inside risk budgets instead of neutralizing them. It remained profitable at
+doubled costs and with a one-session signal delay. The 2017–2020 period is reused evidence, so the
+result is permission to define a separate locked-test protocol rather than an unbiased OOS claim.
+The 2021–2024 test has not been evaluated.
 
 - [v13–v18 consolidated report](reports/cross_asset_v13_v18/REPORT.md)
 - [Development NAV and drawdown](reports/cross_asset_v13_v18/development_nav_drawdown.png)
 - [Research ladder](reports/cross_asset_v13_v18/research_ladder.png)
 - [v18 frozen selection result](reports/cross_asset_v18/development_audit.csv)
+- [v19 defensive TSMOM report](reports/cross_asset_v19/REPORT.md)
+- [v19 frozen protocol](docs/MULTI_ASSET_PROTOCOL_V19.md)
 
 ## Research capabilities
 
@@ -130,6 +135,7 @@ python -m scripts.collect_cross_asset_etfs_v17 \
   --output output/cross_asset_etfs_v17 --start 2007-01-01 --end 2025-01-01
 python -m scripts.evaluate_cross_asset_v17
 python -m scripts.evaluate_cross_asset_v18
+python -m scripts.evaluate_cross_asset_v19
 ```
 
 A two-to-three-month prospective paper record must accumulate on future trading days; historical

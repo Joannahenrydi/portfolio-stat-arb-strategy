@@ -1,7 +1,22 @@
 import numpy as np
 import pandas as pd
+from scipy.optimize import Bounds, LinearConstraint, OptimizeResult
 
-from backtest.cross_asset_budget import RiskBudgetConfig, run_risk_budget_backtest
+from backtest.cross_asset_budget import (
+    RiskBudgetConfig,
+    _is_feasible_candidate,
+    run_risk_budget_backtest,
+)
+
+
+def test_nonconverged_candidate_must_still_pass_independent_feasibility_check():
+    bounds = Bounds(np.array([-1.0]), np.array([1.0]))
+    linear = LinearConstraint(np.array([[1.0]]), -np.inf, np.array([0.5]))
+    volatility = lambda x: 0.25 - float(x @ x)
+    numerical_boundary = OptimizeResult(x=np.array([0.50000002]), success=False, status=8)
+    breached = OptimizeResult(x=np.array([0.51]), success=False, status=8)
+    assert _is_feasible_candidate(numerical_boundary, bounds, linear, volatility, 1e-7)
+    assert not _is_feasible_candidate(breached, bounds, linear, volatility, 1e-7)
 
 
 def test_risk_budget_targets_respect_all_caps():
